@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parent Portal - GuardianPulse Parental Control</title>
+  <link rel="stylesheet" href="/shared/common.css">
+  <link rel="stylesheet" href="/parent/styles.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div class="brand-area">
+        <div class="brand-logo">🛡️</div>
+        <div>
+          <div class="brand-name">GuardianPulse</div>
+          <div style="font-size:11px; color:#64748b;">Parental Control System</div>
+        </div>
+      </div>
+
+      <!-- Supervised Child Selector -->
+      <div class="child-selector-box">
+        <div style="font-size:11px; font-weight:600; color:#64748b; margin-bottom:8px; text-transform:uppercase;">
+          Monitoring Child
+        </div>
+        <div class="child-badge" id="child-badge-btn">
+          <div class="child-avatar" id="sidebar-child-avatar">👦</div>
+          <div>
+            <div class="child-meta-name" id="sidebar-child-name">Alex Jenkins (12y)</div>
+            <div class="child-meta-device" id="sidebar-child-device">
+              <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#10b981;"></span>
+              Pixel 7a • Online
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs (Matching SRS functional requirements) -->
+      <nav class="nav-menu">
+        <div class="nav-item active" data-tab="tab-overview">
+          <span>📊</span> Overview & Dashboard
+        </div>
+        <div class="nav-item" data-tab="tab-usage">
+          <span>⏱️</span> App Usage & Activity (FR-03)
+        </div>
+        <div class="nav-item" data-tab="tab-screentime">
+          <span>⏳</span> Screen Time & Bedtime (FR-04)
+        </div>
+        <div class="nav-item" data-tab="tab-restrictions">
+          <span>🚫</span> App Restrictions (FR-05)
+        </div>
+        <div class="nav-item" data-tab="tab-filtering">
+          <span>🛡️</span> Content Filtering (FR-06)
+        </div>
+        <div class="nav-item" data-tab="tab-location">
+          <span>📍</span> Live GPS & Geofence (FR-07)
+        </div>
+        <div class="nav-item" data-tab="tab-alerts">
+          <span>🔔</span> Alerts & Safety Log (FR-08)
+          <span class="badge" id="unread-alert-badge">3</span>
+        </div>
+      </nav>
+
+      <!-- Parent Profile Footer -->
+      <div style="padding:16px 20px; border-top:1px solid #1e293b; font-size:12px; display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <div style="font-weight:600; color:white;" id="parent-name-display">Sarah Jenkins</div>
+          <div style="color:#64748b;">parent@example.com</div>
+        </div>
+        <button id="btn-logout" title="Switch / Logout" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:16px;">⎋</button>
+      </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <main class="main-wrapper">
+      
+      <!-- TOP HEADER BAR -->
+      <header class="top-header">
+        <div class="header-title-box">
+          <h1 id="page-heading">Dashboard Overview</h1>
+        </div>
+        <div class="header-actions">
+          <div style="display:flex; align-items:center; gap:8px; font-size:12px; color:#64748b; background:#f1f5f9; padding:6px 12px; border-radius:20px;">
+            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981; animation:blink 1.5s infinite;"></span>
+            <span id="sse-live-indicator">Real-time Cloud Sync Active</span>
+          </div>
+          <button class="btn-header" id="btn-grant-bonus-top">+15m Bonus Time</button>
+          <button class="btn-header danger" id="btn-emergency-lock-top">🔒 Lock Phone Now</button>
+        </div>
+      </header>
+
+      <!-- TAB 1: OVERVIEW & DASHBOARD (FR-10) -->
+      <div class="tab-content active" id="tab-overview">
+        
+        <!-- Remote Lock Quick Banner -->
+        <div class="remote-lock-banner">
+          <div>
+            <h3 style="font-size:17px; margin-bottom:4px;" id="banner-lock-status">Device Status: Active & Protected</h3>
+            <p style="font-size:13px; color:#94a3b8;">
+              Currently Running: <strong id="banner-active-app" style="color:#38bdf8;">YouTube</strong> • Battery: <strong id="banner-battery">78%</strong>
+            </p>
+          </div>
+          <button class="lock-btn" id="btn-banner-toggle-lock">
+            <span>🔒</span> <span id="banner-btn-text">Lock Device Immediately</span>
+          </button>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Screen Time Today</span>
+              <span class="stat-icon">⏱️</span>
+            </div>
+            <div class="stat-value" id="card-screentime-val">1h 15m</div>
+            <div class="stat-sub">Limit: 2h 00m (45m remaining)</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Active Foreground App</span>
+              <span class="stat-icon">📱</span>
+            </div>
+            <div class="stat-value" id="card-active-app-val" style="font-size:22px;">YouTube</div>
+            <div class="stat-sub">Category: Entertainment</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Live GPS Location</span>
+              <span class="stat-icon">📍</span>
+            </div>
+            <div class="stat-value" id="card-location-val" style="font-size:18px;">Oak Creek School</div>
+            <div class="stat-sub">Inside Safe Zone: School</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Security Alerts Today</span>
+              <span class="stat-icon">🚨</span>
+            </div>
+            <div class="stat-value" id="card-alerts-val" style="color:#ef4444;">3</div>
+            <div class="stat-sub" style="color:#ef4444;">1 App restriction blocked</div>
+          </div>
+        </div>
+
+        <!-- Two Column Dashboard Layout -->
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+          
+          <!-- App Usage Quick Breakdown -->
+          <div class="panel-card">
+            <div class="panel-title">Today's App Activity</div>
+            <div class="panel-desc">Time spent per application today</div>
+            <div id="overview-usage-bars" style="display:flex; flex-direction:column; gap:14px;">
+              <!-- Dynamic bars -->
+            </div>
+          </div>
+
+          <!-- Recent Alerts Feed -->
+          <div class="panel-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <div>
+                <div class="panel-title" style="margin-bottom:0;">Live Security Alerts</div>
+                <div class="panel-desc" style="margin-bottom:0;">Real-time notifications from child's phone</div>
+              </div>
+              <button id="btn-quick-mark-read" style="background:none; border:none; color:#4f46e5; font-size:12px; font-weight:600; cursor:pointer;">Mark Read</button>
+            </div>
+            <div id="overview-recent-alerts" style="display:flex; flex-direction:column; gap:10px; max-height:280px; overflow-y:auto;">
+              <!-- Dynamic alerts -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- TAB 2: APPLICATION USAGE MONITORING (FR-03) -->
+      <div class="tab-content" id="tab-usage">
+        <div class="panel-card">
+          <div class="panel-title">Detailed Application Usage Logs</div>
+          <div class="panel-desc">Real-time foreground session tracking logged via Android UsageStatsManager</div>
+          
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>App Name</th>
+                <th>Category</th>
+                <th>Package Name</th>
+                <th>Time Spent Today</th>
+                <th>Daily Limit</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="usage-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: SCREEN TIME MANAGEMENT (FR-04) -->
+      <div class="tab-content" id="tab-screentime">
+        <div class="panel-card">
+          <div class="panel-title">Screen Time Allowance & Limits</div>
+          <div class="panel-desc">Configure overall screen time allowance and curfew schedules</div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:30px; margin-top:20px;">
+            
+            <!-- Daily Allowance Slider -->
+            <div style="background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #e2e8f0;">
+              <h4 style="font-size:14px; margin-bottom:12px; color:#1e293b;">Daily Allowance Limit</h4>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:13px; color:#64748b;">Allowed Screen Time:</span>
+                <strong id="daily-limit-display" style="font-size:18px; color:#4f46e5;">120 min (2h 00m)</strong>
+              </div>
+              <input type="range" id="daily-limit-slider" min="30" max="360" step="15" value="120" style="width:100%; cursor:pointer;">
+              <div style="display:flex; justify-content:space-between; font-size:11px; color:#94a3b8; margin-top:4px;">
+                <span>30 mins</span>
+                <span>3 hours</span>
+                <span>6 hours</span>
+              </div>
+              <button class="btn-header" id="btn-save-screentime" style="margin-top:18px; width:100%; justify-content:center; background:#4f46e5; color:white;">
+                Save Daily Allowance
+              </button>
+            </div>
+
+            <!-- Curfew / Bedtime Schedule -->
+            <div style="background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #e2e8f0;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h4 style="font-size:14px; color:#1e293b; margin:0;">Bedtime / Curfew Hours</h4>
+                <label class="switch-label">
+                  <input type="checkbox" id="curfew-toggle" checked>
+                  <span class="slider-toggle"></span>
+                </label>
+              </div>
+              <p style="font-size:12px; color:#64748b; margin-bottom:16px;">
+                Automatically locks the child device during bedtime hours.
+              </p>
+              <div style="display:flex; gap:16px;">
+                <div style="flex:1;">
+                  <label style="font-size:11px; font-weight:600; color:#64748b; display:block; margin-bottom:4px;">BEDTIME START</label>
+                  <input type="time" id="curfew-start-input" value="21:00" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #cbd5e1;">
+                </div>
+                <div style="flex:1;">
+                  <label style="font-size:11px; font-weight:600; color:#64748b; display:block; margin-bottom:4px;">WAKE UP END</label>
+                  <input type="time" id="curfew-end-input" value="06:30" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #cbd5e1;">
+                </div>
+              </div>
+              <button class="btn-header" id="btn-save-curfew" style="margin-top:18px; width:100%; justify-content:center; background:#0f172a; color:white;">
+                Update Curfew Schedule
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Bonus Time Grant Section -->
+          <div style="margin-top:24px; padding:18px; background:#eff6ff; border-radius:12px; border:1px solid #bfdbfe; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong style="color:#1e40af; font-size:14px;">Grant Immediate Bonus Screen Time</strong>
+              <div style="font-size:12px; color:#3b82f6;">Reward your child with extra screen time for good behavior or completed homework.</div>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn-header" id="btn-bonus-15" style="background:#3b82f6; color:white; border:none;">+15 Minutes</button>
+              <button class="btn-header" id="btn-bonus-30" style="background:#2563eb; color:white; border:none;">+30 Minutes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: APPLICATION RESTRICTION (FR-05) -->
+      <div class="tab-content" id="tab-restrictions">
+        <div class="panel-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <div>
+              <div class="panel-title" style="margin-bottom:2px;">Installed Applications & Restrictions</div>
+              <div class="panel-desc" style="margin-bottom:0;">Block applications or set individual daily time limits</div>
+            </div>
+            <input type="text" id="app-search-input" placeholder="Search installed apps..." style="padding:8px 14px; border-radius:8px; border:1px solid #cbd5e1; font-size:13px; width:220px;">
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>App</th>
+                <th>Category</th>
+                <th>Daily Time Limit</th>
+                <th>Time Used Today</th>
+                <th>Block Access</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="restrictions-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 5: CONTENT FILTERING (FR-06) -->
+      <div class="tab-content" id="tab-filtering">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+          
+          <!-- Category Filtering Toggles -->
+          <div class="panel-card">
+            <div class="panel-title">Safety Category Filters</div>
+            <div class="panel-desc">Filter web domains and search queries by content category</div>
+
+            <div id="category-filters-list" style="display:flex; flex-direction:column; gap:12px;">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Custom Blocked Keywords & Domains -->
+          <div class="panel-card">
+            <div class="panel-title">Custom Keyword & URL Blocklist</div>
+            <div class="panel-desc">Add specific keywords or web domains to instantly block</div>
+
+            <div style="display:flex; gap:10px; margin-bottom:16px;">
+              <input type="text" id="custom-rule-input" placeholder="e.g. casino, violent-game.com" style="flex:1; padding:8px 12px; border-radius:8px; border:1px solid #cbd5e1; font-size:13px;">
+              <select id="custom-rule-type" style="padding:8px 12px; border-radius:8px; border:1px solid #cbd5e1; font-size:13px;">
+                <option value="keyword">Keyword</option>
+                <option value="url">Domain/URL</option>
+              </select>
+              <button class="btn-header" id="btn-add-custom-rule" style="background:#4f46e5; color:white; border:none;">Add Rule</button>
+            </div>
+
+            <div id="custom-rules-list" style="display:flex; flex-direction:column; gap:8px; max-height:280px; overflow-y:auto;">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TAB 6: LOCATION TRACKING & GEOFENCING (FR-07) -->
+      <div class="tab-content" id="tab-location">
+        <div style="display:grid; grid-template-columns: 1fr 340px; gap:20px;">
+          
+          <!-- Interactive Vector GPS Satellite Map -->
+          <div class="panel-card" style="padding:16px; display:flex; flex-direction:column;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <div>
+                <div class="panel-title" style="margin-bottom:0;">Interactive Child GPS Satellite Radar</div>
+                <div class="panel-desc" style="margin-bottom:0;">Live coordinates, geofences, and location history</div>
+              </div>
+              <button class="btn-header" id="btn-refresh-location">🔄 Refresh GPS</button>
+            </div>
+            
+            <div id="guardian-map-container" style="flex:1; min-height:450px;"></div>
+          </div>
+
+          <!-- Geofences (Safe Zones) Management -->
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="panel-card">
+              <div class="panel-title">Safe Zones (Geofencing)</div>
+              <div class="panel-desc">Parent receives instant alerts when child enters or exits these areas</div>
+
+              <div id="geofences-list" style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+                <!-- Dynamically populated -->
+              </div>
+
+              <!-- Add Safe Zone Form -->
+              <div style="border-top:1px solid #e2e8f0; padding-top:14px;">
+                <div style="font-size:12px; font-weight:600; color:#1e293b; margin-bottom:8px;">Add New Safe Zone</div>
+                <input type="text" id="gf-name-input" placeholder="Zone name (e.g. Grandparent House)" style="width:100%; padding:7px 10px; border-radius:6px; border:1px solid #cbd5e1; font-size:12px; margin-bottom:6px;">
+                <div style="display:flex; gap:6px; margin-bottom:8px;">
+                  <input type="number" step="0.0001" id="gf-lat-input" placeholder="Latitude" style="flex:1; padding:7px 10px; border-radius:6px; border:1px solid #cbd5e1; font-size:12px;">
+                  <input type="number" step="0.0001" id="gf-lng-input" placeholder="Longitude" style="flex:1; padding:7px 10px; border-radius:6px; border:1px solid #cbd5e1; font-size:12px;">
+                </div>
+                <button class="btn-header" id="btn-add-geofence" style="width:100%; justify-content:center; background:#0ea5e9; color:white; border:none; padding:7px;">
+                  + Add Safe Zone
+                </button>
+              </div>
+            </div>
+
+            <!-- Recent GPS Trail Logs -->
+            <div class="panel-card">
+              <div class="panel-title">Recent Location Breadcrumbs</div>
+              <div id="location-history-list" style="display:flex; flex-direction:column; gap:8px; max-height:160px; overflow-y:auto; font-size:12px; color:#475569;">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TAB 7: ALERTS & SAFETY LOG (FR-08) -->
+      <div class="tab-content" id="tab-alerts">
+        <div class="panel-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <div>
+              <div class="panel-title" style="margin-bottom:2px;">Security & Activity Alerts Log</div>
+              <div class="panel-desc" style="margin-bottom:0;">Real-time notifications of restricted app access, filter violations, and geofence events</div>
+            </div>
+            <button class="btn-header" id="btn-mark-all-read">Mark All as Read</button>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Severity</th>
+                <th>Alert Type</th>
+                <th>Message</th>
+                <th>Timestamp</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="alerts-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/shared/map-view.js"></script>
+  <script src="/parent/app.js"></script>
+</body>
+</html>
+

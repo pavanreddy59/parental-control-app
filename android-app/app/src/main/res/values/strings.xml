@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">GuardianPulse Child</string>
+    <string name="device_admin_label">GuardianPulse Protection</string>
+    <string name="device_admin_description">Enforces parental control policies, prevents unauthorized uninstallation, and locks device during curfew.</string>
+    <string name="app_restricted_title">Application Restricted</string>
+    <string name="app_restricted_desc">This app has been blocked by your parent under family screen time policies.</string>
+    <string name="request_more_time">Request 15 More Minutes</string>
+    <string name="return_home">Return to Home Screen</string>
+</resources>
+

@@ -1,0 +1,114 @@
+/* Common CSS styling for GuardianPulse */
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #e0e7ff;
+  --secondary: #0ea5e9;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --dark: #0f172a;
+  --slate-800: #1e293b;
+  --slate-700: #334155;
+  --slate-600: #475569;
+  --slate-200: #e2e8f0;
+  --slate-100: #f1f5f9;
+  --bg-app: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --radius: 12px;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  min-width: 300px;
+  max-width: 420px;
+  padding: 14px 18px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-left: 5px solid var(--primary);
+  animation: slideIn 0.3s ease forwards;
+  transition: opacity 0.3s ease;
+}
+
+.toast.critical {
+  border-left-color: var(--danger);
+  background: #fef2f2;
+}
+
+.toast.warning {
+  border-left-color: var(--warning);
+  background: #fffbeb;
+}
+
+.toast.info {
+  border-left-color: var(--secondary);
+  background: #f0f9ff;
+}
+
+.toast-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.toast-content {
+  flex: 1;
+}
+
+.toast-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 2px;
+  color: #1e293b;
+}
+
+.toast-msg {
+  font-size: 13px;
+  color: #475569;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+

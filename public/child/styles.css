@@ -1,0 +1,439 @@
+/* Android Phone Simulator Styles */
+.phone-viewport {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: #0f172a;
+}
+
+.android-chassis {
+  width: 360px;
+  height: 740px;
+  background: #111827;
+  border-radius: 44px;
+  border: 12px solid #1f2937;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px #374151;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Punch hole camera */
+.camera-notch {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  background: #000000;
+  border-radius: 50%;
+  z-index: 100;
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* Status Bar */
+.status-bar {
+  height: 32px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 90;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(5px);
+}
+
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+/* Screen container */
+.phone-screen {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #0f172a 100%);
+  color: white;
+}
+
+/* Home Screen Widgets */
+.home-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  overflow-y: auto;
+}
+
+.widget-clock {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.widget-time {
+  font-size: 52px;
+  font-weight: 200;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.widget-date {
+  font-size: 13px;
+  color: #93c5fd;
+  margin-top: 4px;
+}
+
+/* Screen Time Usage Widget Pill */
+.screentime-pill {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 10px 16px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.screentime-pill:hover {
+  transform: scale(1.02);
+}
+
+.screentime-label {
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+.screentime-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+/* App Grid */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px 12px;
+  padding: 0 4px;
+}
+
+.app-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  user-select: none;
+}
+
+.app-icon-item:active {
+  transform: scale(0.92);
+}
+
+.icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.icon-box.blocked-badge::after {
+  content: '🔒';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  font-size: 14px;
+  background: #ef4444;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid white;
+}
+
+.app-label {
+  font-size: 11px;
+  color: #f1f5f9;
+  text-align: center;
+  max-width: 64px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* Navigation Bar at Bottom */
+.android-nav-bar {
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.nav-pill-home {
+  width: 90px;
+  height: 4px;
+  background: #94a3b8;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Active Running App Screen */
+.active-app-screen {
+  position: absolute;
+  inset: 0;
+  background: #0f172a;
+  z-index: 80;
+  display: none;
+  flex-direction: column;
+}
+
+.active-app-screen.visible {
+  display: flex;
+}
+
+.app-topbar {
+  height: 48px;
+  background: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  border-bottom: 1px solid #334155;
+}
+
+.app-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.app-content-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+/* Block Overlay Dialog (FR-05) */
+.block-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(12px);
+  z-index: 95;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  text-align: center;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+.block-overlay.visible {
+  display: flex;
+}
+
+.block-icon-large {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #ef4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  margin-bottom: 18px;
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.5);
+}
+
+.block-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.block-reason {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.btn-pill {
+  padding: 10px 24px;
+  border-radius: 24px;
+  font-weight: 600;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-pill:hover {
+  opacity: 0.9;
+}
+
+.btn-primary {
+  background: #4f46e5;
+  color: white;
+}
+
+.btn-secondary {
+  background: #334155;
+  color: white;
+  margin-top: 10px;
+}
+
+/* Remote Lock & Bedtime Screen (FR-04) */
+.lockout-screen {
+  position: absolute;
+  inset: 0;
+  background: #090d16;
+  z-index: 98;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  text-align: center;
+}
+
+.lockout-screen.visible {
+  display: flex;
+}
+
+/* Safe Browser Screen (FR-06) */
+.browser-screen {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  color: #0f172a;
+  z-index: 85;
+  display: none;
+  flex-direction: column;
+}
+
+.browser-screen.visible {
+  display: flex;
+}
+
+.browser-header {
+  background: #f1f5f9;
+  padding: 10px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.browser-url-input {
+  flex: 1;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid #cbd5e1;
+  font-size: 12px;
+  outline: none;
+  background: white;
+}
+
+.browser-url-input:focus {
+  border-color: #4f46e5;
+}
+
+.browser-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+/* Child Simulator Control Dock (For Project Viva / Evaluation) */
+.evaluator-dock {
+  width: 360px;
+  margin-top: 16px;
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 14px 18px;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+  font-size: 12px;
+}
+
+.evaluator-dock-title {
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dock-btn-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.btn-dock {
+  background: #334155;
+  color: #f8fafc;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-dock:hover {
+  background: #475569;
+}
+
+.btn-dock.danger {
+  background: #dc2626;
+  color: white;
+}
+
+.btn-dock.danger:hover {
+  background: #b91c1c;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+

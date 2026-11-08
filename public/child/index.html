@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Child Phone Simulator - GuardianPulse</title>
+  <link rel="stylesheet" href="/shared/common.css">
+  <link rel="stylesheet" href="/child/styles.css">
+</head>
+<body>
+  <div class="phone-viewport">
+    <div style="display:flex; flex-direction:column; align-items:center;">
+      
+      <!-- Android Chassis Phone Shell -->
+      <div class="android-chassis">
+        <!-- Selfie Camera Notch -->
+        <div class="camera-notch"></div>
+
+        <!-- Android Status Bar -->
+        <div class="status-bar">
+          <span id="sb-time">09:41</span>
+          <div class="status-right">
+            <span>5G</span>
+            <span>📶</span>
+            <span>📶</span>
+            <span id="sb-battery">🔋 78%</span>
+          </div>
+        </div>
+
+        <!-- Phone Screen Inside -->
+        <div class="phone-screen" id="phone-screen">
+          
+          <!-- HOME SCREEN -->
+          <div class="home-screen" id="home-screen">
+            <div class="widget-clock">
+              <div class="widget-time" id="home-clock">09:41</div>
+              <div class="widget-date" id="home-date">Wednesday, November 8</div>
+            </div>
+
+            <!-- Screen Time Pill -->
+            <div class="screentime-pill" id="screen-time-pill" title="Click to view details">
+              <span class="screentime-label">⏱️ Allowed Time Left</span>
+              <span class="screentime-value" id="remaining-time-text">45 min</span>
+            </div>
+
+            <!-- App Launcher Grid (FR-03, FR-05) -->
+            <div class="app-grid" id="app-grid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- ACTIVE APP SCREEN (When app is allowed and running) -->
+          <div class="active-app-screen" id="active-app-screen">
+            <div class="app-topbar">
+              <span id="active-app-title" style="font-weight:600;">YouTube</span>
+              <button class="app-close-btn" id="app-back-btn">✕ Exit App</button>
+            </div>
+            <div class="app-content-body">
+              <div id="active-app-icon" style="font-size:54px; margin-bottom:12px;">▶️</div>
+              <h3 id="active-app-name" style="margin-bottom:8px;">YouTube</h3>
+              <p style="color:#94a3b8; font-size:13px; max-width:240px; margin-bottom:20px;">
+                Application is currently running under parental monitoring.
+              </p>
+              <div style="background:#1e293b; padding:12px 20px; border-radius:12px; border:1px solid #334155;">
+                <div style="font-size:11px; color:#94a3b8;">ACTIVE SESSION TIME</div>
+                <div id="active-session-timer" style="font-size:24px; font-weight:700; color:#38bdf8; font-family:monospace;">00:00</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- APP BLOCK OVERLAY (FR-05) -->
+          <div class="block-overlay" id="block-overlay">
+            <div class="block-icon-large">🔒</div>
+            <div class="block-title">App Restricted</div>
+            <div class="block-reason" id="block-reason-text">
+              This application has been blocked by parental controls.
+            </div>
+            <button class="btn-pill btn-primary" id="btn-request-time">Request Access / Time</button>
+            <button class="btn-pill btn-secondary" id="btn-close-block">Return to Home</button>
+          </div>
+
+          <!-- FULL DEVICE LOCK / BEDTIME OVERLAY (FR-04) -->
+          <div class="lockout-screen" id="lockout-screen">
+            <div style="font-size:64px; margin-bottom:16px;">⏳</div>
+            <h2 style="font-size:22px; font-weight:700; margin-bottom:10px;" id="lockout-title">Time's Up!</h2>
+            <p style="color:#94a3b8; font-size:13px; max-width:260px; line-height:1.5; margin-bottom:24px;" id="lockout-message">
+              Your daily screen time limit has been reached, or device is remotely locked by your parent.
+            </p>
+            <button class="btn-pill btn-primary" id="btn-sos-from-lock" style="background:#dc2626;">🚨 Emergency SOS</button>
+          </div>
+
+          <!-- SAFE WEB BROWSER WITH CONTENT FILTERING (FR-06) -->
+          <div class="browser-screen" id="browser-screen">
+            <div class="browser-header">
+              <button id="browser-close-btn" style="background:none; border:none; font-size:16px; cursor:pointer;">✕</button>
+              <input type="text" class="browser-url-input" id="browser-input" placeholder="Search Google or enter URL...">
+              <button id="browser-go-btn" style="background:#4f46e5; color:white; border:none; padding:6px 12px; border-radius:14px; font-size:12px; cursor:pointer;">Go</button>
+            </div>
+            <div class="browser-body" id="browser-body">
+              <div style="margin-bottom:14px; font-size:12px; color:#64748b;">
+                <strong>Safe Browsing Engine Active:</strong> Try searching or click sample queries below to test content filtering rules:
+              </div>
+              
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <div style="font-size:11px; font-weight:600; color:#475569;">ALLOWED TEST SITES:</div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                  <button class="btn-dock test-search" data-q="Solar system wikipedia">🪐 Solar System (Wiki)</button>
+                  <button class="btn-dock test-search" data-q="Khan academy math homework">📐 Khan Academy Math</button>
+                </div>
+
+                <div style="font-size:11px; font-weight:600; color:#dc2626; margin-top:8px;">PROHIBITED TEST SITES (FR-06):</div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                  <button class="btn-dock test-search danger" data-q="online casino gambling slots">🎰 Casino & Betting</button>
+                  <button class="btn-dock test-search danger" data-q="guns and assault weapons">🔫 Violence & Weapons</button>
+                  <button class="btn-dock test-search danger" data-q="free robux generator hack tool">⚠️ Phishing & Hacks</button>
+                  <button class="btn-dock test-search danger" data-q="adult nsfw explicit video">🔞 Adult Content</button>
+                </div>
+              </div>
+
+              <!-- Browser Result Display -->
+              <div id="browser-display-area" style="margin-top:20px; border-top:1px solid #e2e8f0; padding-top:16px;">
+                <div style="color:#64748b; font-size:13px; text-align:center;">
+                  Enter a search term or click a preset test query above.
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Android Bottom Navigation Bar -->
+        <div class="android-nav-bar">
+          <div class="nav-pill-home" id="nav-home-pill" title="Home button"></div>
+        </div>
+      </div>
+
+      <!-- EVALUATOR / VIVA SIMULATION DOCK -->
+      <div class="evaluator-dock">
+        <div class="evaluator-dock-title">
+          <span>🛠️ Evaluator Simulation Controls</span>
+          <span style="font-size:10px; color:#10b981; font-weight:normal;" id="sse-status">● Live Synced</span>
+        </div>
+        
+        <!-- Simulate GPS Location (FR-07) -->
+        <div style="margin-top:6px;">
+          <div style="font-size:11px; color:#94a3b8; margin-bottom:4px;">Simulate GPS Location:</div>
+          <div class="dock-btn-row">
+            <button class="btn-dock" id="btn-loc-home">🏠 Home (Safe)</button>
+            <button class="btn-dock" id="btn-loc-school">🏫 School (Safe)</button>
+            <button class="btn-dock" id="btn-loc-park">⚽ Park (Safe)</button>
+            <button class="btn-dock danger" id="btn-loc-outside">⚠️ Outside Geofence!</button>
+          </div>
+        </div>
+
+        <!-- Simulate Battery & SOS (FR-08) -->
+        <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-size:11px; color:#94a3b8;">
+            Battery Level: <span id="dock-battery-val">78%</span>
+          </div>
+          <button class="btn-dock danger" id="btn-drain-battery" style="font-size:10px;">Drain to 10% (Alert)</button>
+        </div>
+
+        <div style="margin-top:10px;">
+          <button class="btn-dock danger" id="btn-dock-sos" style="width:100%; font-weight:bold; padding:8px;">
+            🚨 Trigger Emergency SOS (Panic Button)
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/child/app.js"></script>
+</body>
+</html>
+

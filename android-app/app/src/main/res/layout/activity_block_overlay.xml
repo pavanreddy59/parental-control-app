@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#090D16"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔒"
+        android:textSize="72sp" />
+
+    <TextView
+        android:id="@+id/tvBlockedTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/app_restricted_title"
+        android:textColor="@color/text_white"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvBlockedReason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="@string/app_restricted_desc"
+        android:textColor="@color/text_muted"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btnRequestTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/primary"
+        android:text="@string/request_more_time"
+        android:textColor="@color/text_white" />
+
+    <Button
+        android:id="@+id/btnReturnHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/card_bg"
+        android:text="@string/return_home"
+        android:textColor="@color/text_white" />
+
+</LinearLayout>
+

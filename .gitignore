@@ -1,0 +1,19 @@
+# Node / Build artifacts
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.system_generated/
+*.log
+
+# Android Studio / Gradle
+.gradle/
+build/
+android-app/.gradle/
+android-app/build/
+android-app/app/build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+Thumbs.db

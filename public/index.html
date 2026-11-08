@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GuardianPulse - College Project Demonstration Hub</title>
+  <link rel="stylesheet" href="/shared/common.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #0f172a;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Master Control Toolbar */
+    .master-toolbar {
+      height: 52px;
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      color: white;
+      z-index: 1000;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-pill {
+      background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .view-mode-toggle {
+      display: flex;
+      background: #0f172a;
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+    }
+
+    .mode-btn {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      background: transparent;
+      color: #94a3b8;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mode-btn.active {
+      background: #4f46e5;
+      color: white;
+    }
+
+    .action-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-tool {
+      background: #334155;
+      color: #f8fafc;
+      border: 1px solid #475569;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+
+    .btn-tool:hover {
+      background: #475569;
+    }
+
+    .btn-tool.danger:hover {
+      background: #dc2626;
+      border-color: #dc2626;
+    }
+
+    /* Demonstration Viewport Frame */
+    .portal-viewport {
+      flex: 1;
+      display: flex;
+      width: 100%;
+      height: calc(100% - 52px);
+      position: relative;
+    }
+
+    .frame-container {
+      height: 100%;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .frame-parent {
+      flex: 1;
+      border-right: 2px solid #334155;
+    }
+
+    .frame-child {
+      width: 480px;
+      min-width: 420px;
+      background: #0f172a;
+    }
+
+    /* Single view states */
+    .portal-viewport.parent-only .frame-child {
+      display: none;
+    }
+    .portal-viewport.parent-only .frame-parent {
+      flex: 1;
+      border-right: none;
+    }
+
+    .portal-viewport.child-only .frame-parent {
+      display: none;
+    }
+    .portal-viewport.child-only .frame-child {
+      flex: 1;
+      width: 100%;
+    }
+
+    /* SRS Compliance Drawer */
+    .srs-drawer {
+      position: fixed;
+      top: 52px;
+      right: -420px;
+      width: 400px;
+      bottom: 0;
+      background: #1e293b;
+      border-left: 1px solid #334155;
+      box-shadow: -10px 0 25px rgba(0,0,0,0.5);
+      z-index: 1001;
+      transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      color: #cbd5e1;
+    }
+
+    .srs-drawer.open {
+      right: 0;
+    }
+
+    .srs-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .srs-body {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      font-size: 13px;
+    }
+
+    .srs-item {
+      background: #0f172a;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      border-left: 4px solid #10b981;
+    }
+
+    .srs-item-title {
+      font-weight: 700;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .srs-badge-pass {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MASTER TOP TOOLBAR -->
+  <header class="master-toolbar">
+    <div class="brand-section">
+      <span class="brand-pill">SRS VERIFIED</span>
+      <strong style="font-size:15px; letter-spacing:-0.3px;">GuardianPulse • Parental Control System</strong>
+      <span style="font-size:11px; color:#94a3b8; margin-left:8px;">Academic Project Demonstration</span>
+    </div>
+
+    <!-- View Mode Switcher -->
+    <div class="view-mode-toggle">
+      <button class="mode-btn active" id="btn-mode-split" title="Interactive Side-by-Side Live Demo">
+        🖥️ Dual Live View (Split)
+      </button>
+      <button class="mode-btn" id="btn-mode-parent" title="Parent Dashboard Full Screen">
+        👨‍👩‍👧 Parent Portal
+      </button>
+      <button class="mode-btn" id="btn-mode-child" title="Child Phone Simulator Full Screen">
+        📱 Child Phone
+      </button>
+    </div>
+
+    <!-- Right Utility Buttons -->
+    <div class="action-tools">
+      <button class="btn-tool" id="btn-open-srs">
+        📋 SRS Requirements Matrix (10/10)
+      </button>
+      <button class="btn-tool danger" id="btn-reset-demo" title="Reset all database records to clean demo state">
+        ↺ Reset Demo State
+      </button>
+    </div>
+  </header>
+
+  <!-- VIEWPORT FRAMES -->
+  <main class="portal-viewport split" id="portal-viewport">
+    <iframe class="frame-container frame-parent" id="iframe-parent" src="/parent/index.html" title="Parent Dashboard"></iframe>
+    <iframe class="frame-container frame-child" id="iframe-child" src="/child/index.html" title="Child Phone Simulator"></iframe>
+  </main>
+
+  <!-- SRS COMPLIANCE DRAWER -->
+  <aside class="srs-drawer" id="srs-drawer">
+    <div class="srs-header">
+      <h3 style="font-size:15px; font-weight:700; color:white;">SRS Specification Verification</h3>
+      <button id="btn-close-srs" style="background:none; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">✕</button>
+    </div>
+    <div class="srs-body">
+      <div style="margin-bottom:16px; font-size:12px; color:#94a3b8;">
+        Every requirement from <strong>spec.md</strong> is implemented, seeded with data, and fully testable in real-time:
+      </div>
+
+      <div class="srs-item">
+        <div class="srs-item-title">
+          <span>FR-01: User Registration</span>
+          <span class="srs-badge-pass">IMPLEMENTED</span>
+        </div>
+        <div>Password PBKDF2 hashing with salt, validation, parent profile storage.</div>
+      </div>
+
+      <div class="srs-item">
+        <div class="srs-item-title">
+          <span>FR-02: User Login</span>
+          <span class="srs-badge-pass">IMPLEMENTED</span>
+        </div>
+        <div>Session token authentication, secure credentials verification.</div>
+      </div>
+
+      <div class="srs-item">
+        <div class="srs-item-title">
+          <span>FR-03: App Usage Monitoring</span>
+          <span class="srs-badge-pass">IMPLEMENTED</span>
+        </div>
+        <div>UsageStatsManager logger, daily screen-time aggregation, category breakdown.</div>
+      </div>
+
+      <div class="srs-item">
+        <div class="srs-item-title">
+          <span>FR-04: Screen-Time Management</span>
+          <span class="srs-badge-pass">IMPLEMENTED</span>
+        </div>
+        <div>Daily limit allowance slider, bedtime/curfew lock schedule, remote lock toggle.</div>
+      </div>
+
+      <div class="srs-item">
+        <div class="srs-item-title">
+          <span>FR-05: Application Restriction</span>
+          <span class="srs-badge-pass">IMPLEMENTED</span>
+        </div>
+        <div>One-click block/unblock toggles, per-app daily time limits, real-time lock overlay.</div>
+      </div>
+
+      <div class="srs-item">
+        <div class="srs-item-title">
+          <span>FR-06: Content Filtering</span>
+          <span class="srs-badge-pass">IMPLEMENTED</span>
+        </div>
+        <div>Category filters (Adult, Violence, Gambling, Malware) + custom keyword & domain blacklist.</div>
+      </div>
+
+      <div class="srs-item">
+        <div class="srs-item-title">
+          <span>FR-07: Location Tracking</span>
+          <span class="srs-badge-pass">IMPLEMENTED</span>
+        </div>
+        <div>Interactive GPS radar map, safe zone geofencing (Home, School, Park), breadcrumb trails.</div>
+      </div>
+
+      <div class="srs-item">
+        <div class="srs-item-title">
+          <span>FR-08: Notification Alerts</span>
+          <span class="srs-badge-pass">IMPLEMENTED</span>
+        </div>
+        <div>Real-time Server-Sent Events (SSE) push alerts, toast sounds, SOS Panic trigger.</div>
+      </div>
+
+      <div class="srs-item">
+        <div class="srs-item-title">
+          <span>FR-09: Data Storage</span>
+          <span class="srs-badge-pass">IMPLEMENTED</span>
+        </div>
+        <div>Relational SQLite database with persistent tables for users, devices, logs & alerts.</div>
+      </div>
+
+      <div class="srs-item">
+        <div class="srs-item-title">
+          <span>FR-10: Parent Dashboard</span>
+          <span class="srs-badge-pass">IMPLEMENTED</span>
+        </div>
+        <div>Unified web dashboard with live cards, control switches, charts, and interactive controls.</div>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    // Viewport switcher
+    const viewport = document.getElementById('portal-viewport');
+    const btnSplit = document.getElementById('btn-mode-split');
+    const btnParent = document.getElementById('btn-mode-parent');
+    const btnChild = document.getElementById('btn-mode-child');
+
+    function setActiveMode(mode) {
+      btnSplit.classList.remove('active');
+      btnParent.classList.remove('active');
+      btnChild.classList.remove('active');
+      viewport.className = 'portal-viewport';
+
+      if (mode === 'split') {
+        btnSplit.classList.add('active');
+      } else if (mode === 'parent') {
+        btnParent.classList.add('active');
+        viewport.classList.add('parent-only');
+      } else if (mode === 'child') {
+        btnChild.classList.add('active');
+        viewport.classList.add('child-only');
+      }
+    }
+
+    btnSplit.onclick = () => setActiveMode('split');
+    btnParent.onclick = () => setActiveMode('parent');
+    btnChild.onclick = () => setActiveMode('child');
+
+    // SRS Drawer
+    const srsDrawer = document.getElementById('srs-drawer');
+    document.getElementById('btn-open-srs').onclick = () => srsDrawer.classList.add('open');
+    document.getElementById('btn-close-srs').onclick = () => srsDrawer.classList.remove('open');
+
+    // Reset Demo
+    document.getElementById('btn-reset-demo').onclick = async () => {
+      if (confirm('Reset demo data to initial state?')) {
+        await fetch('/api/demo/reset', { method: 'POST' });
+        document.getElementById('iframe-parent').src = '/parent/index.html';
+        document.getElementById('iframe-child').src = '/child/index.html';
+      }
+    };
+  </script>
+</body>
+</html>
+
