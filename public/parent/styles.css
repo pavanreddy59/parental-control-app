@@ -1,14 +1,19 @@
-/* Parent Dashboard Styling */
+/* Parent Dashboard Styling - Mobile Responsive */
 :root {
   --sidebar-w: 260px;
 }
 
+/* ============================================================
+   LAYOUT
+   ============================================================ */
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar */
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
 .sidebar {
   width: var(--sidebar-w);
   background: #0f172a;
@@ -19,6 +24,9 @@
   position: sticky;
   top: 0;
   height: 100vh;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  z-index: 200;
 }
 
 .brand-area {
@@ -39,6 +47,7 @@
   justify-content: center;
   font-size: 18px;
   color: white;
+  flex-shrink: 0;
 }
 
 .brand-name {
@@ -127,7 +136,63 @@
   border-radius: 10px;
 }
 
-/* Main Content Area */
+/* Parent Profile Footer */
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #1e293b;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ============================================================
+   MOBILE HAMBURGER (hidden on desktop)
+   ============================================================ */
+.mobile-topbar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  background: #0f172a;
+  padding: 12px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  border-bottom: 1px solid #1e293b;
+}
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+}
+
+.mobile-brand {
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+}
+
+/* Sidebar overlay backdrop */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 199;
+}
+
+.sidebar-backdrop.open {
+  display: block;
+}
+
+/* ============================================================
+   MAIN CONTENT AREA
+   ============================================================ */
 .main-wrapper {
   flex: 1;
   background: #f8fafc;
@@ -144,18 +209,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .header-title-box h1 {
   font-size: 18px;
   font-weight: 700;
   color: #0f172a;
+  white-space: nowrap;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
   gap: 14px;
+  flex-wrap: wrap;
 }
 
 .btn-header {
@@ -171,6 +239,7 @@
   background: white;
   color: #334155;
   transition: all 0.15s;
+  white-space: nowrap;
 }
 
 .btn-header:hover {
@@ -187,7 +256,9 @@
   background: #fee2e2;
 }
 
-/* Page Containers */
+/* ============================================================
+   PAGE CONTENT
+   ============================================================ */
 .tab-content {
   display: none;
   padding: 24px 28px;
@@ -201,7 +272,7 @@
 /* Stats Cards Grid */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 18px;
   margin-bottom: 24px;
 }
@@ -273,11 +344,19 @@
   margin-bottom: 18px;
 }
 
-/* Tables */
+/* ============================================================
+   TABLES — scrollable on mobile
+   ============================================================ */
+.table-scroll-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .data-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  min-width: 540px; /* prevents crush on mobile */
 }
 
 .data-table th {
@@ -287,6 +366,7 @@
   color: #64748b;
   border-bottom: 2px solid #f1f5f9;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .data-table td {
@@ -300,7 +380,9 @@
   background: #f8fafc;
 }
 
-/* Form Controls & Toggles */
+/* ============================================================
+   FORM CONTROLS & TOGGLES
+   ============================================================ */
 .switch-label {
   position: relative;
   display: inline-block;
@@ -362,7 +444,9 @@ input:checked + .slider-toggle:before {
   color: #16a34a;
 }
 
-/* Quick Action Remote Lock Banner */
+/* ============================================================
+   QUICK ACTION REMOTE LOCK BANNER
+   ============================================================ */
 .remote-lock-banner {
   background: linear-gradient(135deg, #1e293b, #0f172a);
   border-radius: 14px;
@@ -372,6 +456,8 @@ input:checked + .slider-toggle:before {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .lock-btn {
@@ -387,6 +473,7 @@ input:checked + .slider-toggle:before {
   align-items: center;
   gap: 8px;
   transition: background 0.15s;
+  white-space: nowrap;
 }
 
 .lock-btn:hover {
@@ -401,3 +488,167 @@ input:checked + .slider-toggle:before {
   background: #059669;
 }
 
+/* ============================================================
+   RESPONSIVE: TABLET (≤ 900px)
+   ============================================================ */
+@media (max-width: 900px) {
+  /* Two-column grids collapse to one */
+  .overview-two-col,
+  div[style*="grid-template-columns: 1fr 1fr"],
+  div[style*="grid-template-columns: 1fr 340px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tab-content {
+    padding: 20px 20px;
+  }
+
+  .top-header {
+    padding: 0 20px;
+    height: auto;
+    min-height: 64px;
+    flex-wrap: wrap;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  /* Live indicator — hide label text, show dot only */
+  #sse-live-indicator {
+    display: none;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE: MOBILE (≤ 640px)
+   ============================================================ */
+@media (max-width: 640px) {
+  /* Show hamburger topbar, hide desktop sidebar */
+  .mobile-topbar {
+    display: flex;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    box-shadow: 4px 0 20px rgba(0,0,0,0.4);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .main-wrapper {
+    width: 100%;
+  }
+
+  /* Hide the desktop sticky top-header on mobile (hamburger replaces it) */
+  .top-header {
+    display: none;
+  }
+
+  /* Tab content full-bleed on mobile */
+  .tab-content {
+    padding: 16px 14px;
+  }
+
+  /* Stats: 2-col on mobile */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    padding: 14px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  /* Panel cards */
+  .panel-card {
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* Remote lock banner stack */
+  .remote-lock-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .lock-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Header actions: show only emergency lock */
+  .btn-grant-bonus-top-wrapper {
+    display: none;
+  }
+
+  /* Bonus time buttons — stack */
+  div[style*="display:flex; gap:10px"] {
+    flex-direction: column;
+  }
+
+  /* Screen time grid: 1 col */
+  div[style*="grid-template-columns: 1fr 1fr"][style*="gap:30px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Content filter grid */
+  div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Restriction search bar full-width */
+  #app-search-input {
+    width: 100% !important;
+    margin-top: 10px;
+  }
+
+  /* Alert table header */
+  .data-table th,
+  .data-table td {
+    padding: 10px 10px;
+    font-size: 12px;
+  }
+
+  /* Location tab: map full width */
+  div[style*="grid-template-columns: 1fr 340px"] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #guardian-map-container {
+    min-height: 300px !important;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE: VERY SMALL (≤ 400px)
+   ============================================================ */
+@media (max-width: 400px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

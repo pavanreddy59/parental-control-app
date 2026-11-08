@@ -19,21 +19,25 @@
     /* Top Master Control Toolbar */
     .master-toolbar {
       height: 52px;
+      min-height: 52px;
       background: #1e293b;
       border-bottom: 1px solid #334155;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
+      padding: 0 16px;
       color: white;
       z-index: 1000;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+      gap: 10px;
+      flex-wrap: nowrap;
     }
 
     .brand-section {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      flex-shrink: 0;
     }
 
     .brand-pill {
@@ -43,6 +47,19 @@
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-left: 8px;
     }
 
     .view-mode-toggle {
@@ -51,10 +68,11 @@
       padding: 3px;
       border-radius: 8px;
       border: 1px solid #334155;
+      flex-shrink: 0;
     }
 
     .mode-btn {
-      padding: 6px 14px;
+      padding: 6px 12px;
       border-radius: 6px;
       font-size: 12px;
       font-weight: 600;
@@ -63,6 +81,7 @@
       border: none;
       cursor: pointer;
       transition: all 0.2s;
+      white-space: nowrap;
     }
 
     .mode-btn.active {
@@ -73,7 +92,8 @@
     .action-tools {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     .btn-tool {
@@ -89,6 +109,7 @@
       align-items: center;
       gap: 6px;
       transition: background 0.15s;
+      white-space: nowrap;
     }
 
     .btn-tool:hover {
@@ -107,6 +128,7 @@
       width: 100%;
       height: calc(100% - 52px);
       position: relative;
+      overflow: hidden;
     }
 
     .frame-container {
@@ -118,12 +140,14 @@
     .frame-parent {
       flex: 1;
       border-right: 2px solid #334155;
+      min-width: 0;
     }
 
     .frame-child {
       width: 480px;
-      min-width: 420px;
+      min-width: 380px;
       background: #0f172a;
+      flex-shrink: 0;
     }
 
     /* Single view states */
@@ -141,6 +165,7 @@
     .portal-viewport.child-only .frame-child {
       flex: 1;
       width: 100%;
+      min-width: 0;
     }
 
     /* SRS Compliance Drawer */
@@ -202,6 +227,85 @@
       padding: 2px 6px;
       border-radius: 4px;
     }
+
+    /* =========================================
+       RESPONSIVE — Hub page
+       ========================================= */
+
+    /* Tablet: stack parent+child vertically */
+    @media (max-width: 860px) {
+      .portal-viewport {
+        flex-direction: column;
+        height: calc(100% - 52px);
+        overflow-y: auto;
+      }
+      .frame-parent {
+        flex: none;
+        height: 60%;
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid #334155;
+        min-height: 300px;
+      }
+      .frame-child {
+        flex: none;
+        width: 100%;
+        height: 40%;
+        min-width: 0;
+        min-height: 300px;
+      }
+      .portal-viewport.parent-only .frame-parent {
+        height: 100%;
+      }
+      .portal-viewport.child-only .frame-child {
+        height: 100%;
+      }
+      /* SRS drawer full-width on tablet */
+      .srs-drawer {
+        width: 100%;
+        right: -100%;
+      }
+    }
+
+    /* Mobile: compact toolbar */
+    @media (max-width: 600px) {
+      .master-toolbar {
+        height: auto;
+        min-height: 48px;
+        padding: 8px 12px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .brand-subtitle { display: none; }
+      .brand-title { font-size: 13px; }
+
+      .view-mode-toggle { order: 3; width: 100%; justify-content: center; }
+      .mode-btn { flex: 1; text-align: center; padding: 5px 6px; font-size: 11px; }
+
+      .action-tools { gap: 6px; }
+      .btn-tool { padding: 5px 8px; font-size: 11px; }
+      /* Hide verbose SRS label on mobile */
+      #btn-open-srs span.srs-label { display: none; }
+
+      .portal-viewport {
+        height: auto;
+        flex-direction: column;
+        overflow-y: auto;
+      }
+      .frame-parent {
+        flex: none;
+        height: 55vh;
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid #334155;
+      }
+      .frame-child {
+        flex: none;
+        width: 100%;
+        height: 55vh;
+        min-width: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -210,30 +314,30 @@
   <header class="master-toolbar">
     <div class="brand-section">
       <span class="brand-pill">SRS VERIFIED</span>
-      <strong style="font-size:15px; letter-spacing:-0.3px;">GuardianPulse • Parental Control System</strong>
-      <span style="font-size:11px; color:#94a3b8; margin-left:8px;">Academic Project Demonstration</span>
+      <strong class="brand-title">GuardianPulse • Parental Control System</strong>
+      <span class="brand-subtitle">Academic Project Demonstration</span>
     </div>
 
     <!-- View Mode Switcher -->
     <div class="view-mode-toggle">
       <button class="mode-btn active" id="btn-mode-split" title="Interactive Side-by-Side Live Demo">
-        🖥️ Dual Live View (Split)
+        🖥️ Split
       </button>
       <button class="mode-btn" id="btn-mode-parent" title="Parent Dashboard Full Screen">
-        👨‍👩‍👧 Parent Portal
+        👨‍👩‍👧 Parent
       </button>
       <button class="mode-btn" id="btn-mode-child" title="Child Phone Simulator Full Screen">
-        📱 Child Phone
+        📱 Child
       </button>
     </div>
 
     <!-- Right Utility Buttons -->
     <div class="action-tools">
       <button class="btn-tool" id="btn-open-srs">
-        📋 SRS Requirements Matrix (10/10)
+        📋 <span class="srs-label">SRS (10/10)</span>
       </button>
       <button class="btn-tool danger" id="btn-reset-demo" title="Reset all database records to clean demo state">
-        ↺ Reset Demo State
+        ↺ Reset
       </button>
     </div>
   </header>

@@ -8,10 +8,20 @@
   <link rel="stylesheet" href="/parent/styles.css">
 </head>
 <body>
+
+  <!-- MOBILE TOP BAR (hamburger) -->
+  <div class="mobile-topbar" id="mobile-topbar">
+    <button class="hamburger-btn" id="hamburger-btn" aria-label="Open menu">☰</button>
+    <span class="mobile-brand">🛡️ GuardianPulse</span>
+    <button class="btn-header danger" id="btn-emergency-lock-mobile" style="padding:6px 10px; font-size:12px;">🔒 Lock</button>
+  </div>
+  <!-- Sidebar backdrop for mobile -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
   <div class="dashboard-layout">
     
     <!-- SIDEBAR NAVIGATION -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
       <div class="brand-area">
         <div class="brand-logo">🛡️</div>
         <div>
@@ -64,7 +74,7 @@
       </nav>
 
       <!-- Parent Profile Footer -->
-      <div style="padding:16px 20px; border-top:1px solid #1e293b; font-size:12px; display:flex; align-items:center; justify-content:space-between;">
+      <div class="sidebar-footer">
         <div>
           <div style="font-weight:600; color:white;" id="parent-name-display">Sarah Jenkins</div>
           <div style="color:#64748b;">parent@example.com</div>
@@ -182,6 +192,7 @@
           <div class="panel-title">Detailed Application Usage Logs</div>
           <div class="panel-desc">Real-time foreground session tracking logged via Android UsageStatsManager</div>
           
+          <div class="table-scroll-wrapper">
           <table class="data-table">
             <thead>
               <tr>
@@ -197,6 +208,7 @@
               <!-- Dynamically populated -->
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
@@ -280,6 +292,7 @@
             <input type="text" id="app-search-input" placeholder="Search installed apps..." style="padding:8px 14px; border-radius:8px; border:1px solid #cbd5e1; font-size:13px; width:220px;">
           </div>
 
+          <div class="table-scroll-wrapper">
           <table class="data-table">
             <thead>
               <tr>
@@ -295,6 +308,7 @@
               <!-- Dynamically populated -->
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
@@ -398,6 +412,7 @@
             <button class="btn-header" id="btn-mark-all-read">Mark All as Read</button>
           </div>
 
+          <div class="table-scroll-wrapper">
           <table class="data-table">
             <thead>
               <tr>
@@ -412,16 +427,52 @@
               <!-- Dynamically populated -->
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
     </main>
-  </div>
+  </div><!-- /.dashboard-layout -->
 
   <div class="toast-container" id="toast-container"></div>
 
   <script src="/shared/map-view.js"></script>
   <script src="/parent/app.js"></script>
+
+  <script>
+    // ── Mobile sidebar toggle ──
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    const hamburger = document.getElementById('hamburger-btn');
+
+    function openSidebar() {
+      sidebar.classList.add('open');
+      backdrop.classList.add('open');
+    }
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      backdrop.classList.remove('open');
+    }
+
+    if (hamburger) hamburger.addEventListener('click', openSidebar);
+    if (backdrop)  backdrop.addEventListener('click', closeSidebar);
+
+    // Close sidebar after a nav item tap on mobile
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 640) closeSidebar();
+      });
+    });
+
+    // Mobile lock button mirrors desktop emergency lock
+    const mobileLockBtn = document.getElementById('btn-emergency-lock-mobile');
+    if (mobileLockBtn) {
+      mobileLockBtn.addEventListener('click', () => {
+        const desktopBtn = document.getElementById('btn-emergency-lock-top');
+        if (desktopBtn) desktopBtn.click();
+      });
+    }
+  </script>
 </body>
 </html>
 

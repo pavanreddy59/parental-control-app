@@ -1,11 +1,13 @@
-/* Android Phone Simulator Styles */
+/* Android Phone Simulator Styles - Mobile Responsive */
 .phone-viewport {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
   padding: 20px;
   background: #0f172a;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .android-chassis {
@@ -19,6 +21,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 
 /* Punch hole camera */
@@ -437,3 +440,56 @@
   to { opacity: 1; }
 }
 
+/* =============================================
+   MOBILE RESPONSIVE — Child Simulator
+   ============================================= */
+
+/* On small screens: phone fills the width naturally */
+@media (max-width: 480px) {
+  .phone-viewport {
+    padding: 12px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .android-chassis {
+    /* Fit phone to viewport width */
+    width: calc(100vw - 24px);
+    height: calc((100vw - 24px) * 2.05);
+    max-width: 360px;
+    max-height: 740px;
+    border-radius: 36px;
+    border-width: 10px;
+  }
+
+  .evaluator-dock {
+    width: 100%;
+    max-width: calc(100vw - 24px);
+  }
+}
+
+@media (max-width: 360px) {
+  .android-chassis {
+    border-radius: 28px;
+    border-width: 8px;
+  }
+
+  .widget-time {
+    font-size: 40px;
+  }
+
+  .icon-box {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  .app-label {
+    font-size: 10px;
+    max-width: 50px;
+  }
+
+  .app-grid {
+    gap: 12px 8px;
+  }
+}
