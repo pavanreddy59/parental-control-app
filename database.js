@@ -3,8 +3,24 @@
 const { DatabaseSync } = require('node:sqlite');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const fs = require('node:fs');
 
-const DB_PATH = path.join(__dirname, 'guardiansafe.db');
+// Support both local filesystem and Vercel serverless /tmp
+const isServerless = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NODE_ENV === 'production';
+const DB_PATH = isServerless ? path.join('/tmp', 'guardiansafe.db') : path.join(__dirname, 'guardiansafe.db');
+
+// If local pre-seeded database exists and /tmp doesn't have it yet, copy it
+if (isServerless && !fs.existsSync(DB_PATH)) {
+  const localDb = path.join(__dirname, 'guardiansafe.db');
+  if (fs.existsSync(localDb)) {
+    try {
+      fs.copyFileSync(localDb, DB_PATH);
+    } catch (e) {
+      // Will be created fresh by initDatabase()
+    }
+  }
+}
+
 const db = new DatabaseSync(DB_PATH);
 
 // Helper for hashing passwords

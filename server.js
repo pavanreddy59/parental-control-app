@@ -104,7 +104,7 @@ const MIME_TYPES = {
 };
 
 // Main HTTP request router
-const server = http.createServer(async (req, res) => {
+const handleRequest = async (req, res) => {
   const reqUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = reqUrl.pathname;
   const method = req.method;
@@ -686,16 +686,22 @@ const server = http.createServer(async (req, res) => {
     const stream = fs.createReadStream(filePath);
     stream.pipe(res);
   });
-});
+};
 
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`====================================================`);
-  console.log(`GuardianPulse - Parental Control Application Server`);
-  console.log(`Listening on http://localhost:${PORT} and http://127.0.0.1:${PORT}`);
-  console.log(`====================================================`);
-  console.log(`Access portals:`);
-  console.log(`- Unified Split-Screen Demo: http://localhost:${PORT}/`);
-  console.log(`- Parent Web Dashboard:      http://localhost:${PORT}/parent/`);
-  console.log(`- Child Phone Simulator:     http://localhost:${PORT}/child/`);
-  console.log(`====================================================`);
-});
+const server = http.createServer(handleRequest);
+
+if (require.main === module) {
+  server.listen(PORT, '0.0.0.0', () => {
+    console.log(`====================================================`);
+    console.log(`GuardianPulse - Parental Control Application Server`);
+    console.log(`Listening on http://localhost:${PORT} and http://127.0.0.1:${PORT}`);
+    console.log(`====================================================`);
+    console.log(`Access portals:`);
+    console.log(`- Unified Split-Screen Demo: http://localhost:${PORT}/`);
+    console.log(`- Parent Web Dashboard:      http://localhost:${PORT}/parent/`);
+    console.log(`- Child Phone Simulator:     http://localhost:${PORT}/child/`);
+    console.log(`====================================================`);
+  });
+}
+
+module.exports = { server, handleRequest };

@@ -1,0 +1,22 @@
+{
+  "name": "guardian-pulse",
+  "version": "1.0.0",
+  "description": "Parental Control Application conforming to SRS specification",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/test_suite.js"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "keywords": [
+    "parental-control",
+    "screen-time",
+    "child-safety",
+    "geofencing",
+    "android"
+  ],
+  "author": "pavanreddy59",
+  "license": "MIT"
+}
