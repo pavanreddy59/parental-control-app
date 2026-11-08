@@ -11,3 +11,4 @@ echo.
 npx vercel --prod
 echo.
 pause
+
